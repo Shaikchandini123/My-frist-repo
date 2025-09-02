@@ -1,0 +1,216 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FreshCart — Food Shopping</title>
+  <style>
+    /* ====== Base Styles ====== */
+    :root {
+      --bg: #f8fafc;          /* slate-50 */
+      --card: #ffffff;        /* white */
+      --text: #0f172a;        /* slate-900 */
+      --muted: #64748b;       /* slate-500 */
+      --brand: #22c55e;       /* green-500 */
+      --brand-dark: #16a34a;  /* green-600 */
+      --ring: rgba(34,197,94,.35);
+      --radius: 16px;
+    }* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.5;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+button { font: inherit; }
+
+/* ====== Layout ====== */
+.container { max-width: 1100px; margin: 0 auto; padding: 1rem; }
+
+/* ====== Header / Nav ====== */
+header {
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(8px);
+  background: color-mix(in oklab, var(--bg) 80%, white 20%);
+  border-bottom: 1px solid #e5e7eb;
+}
+.nav {
+  display: flex; align-items: center; gap: 1rem; justify-content: space-between;
+  padding: .75rem 0;
+}
+.brand { display: flex; align-items: center; gap: .6rem; font-weight: 800; }
+.brand .dot { width: 10px; height: 10px; border-radius: 999px; background: var(--brand); box-shadow: 0 0 0 6px var(--ring); }
+.search {
+  display: flex; align-items: center; gap: .5rem; flex: 1; max-width: 520px;
+  background: var(--card); border: 1px solid #e5e7eb; border-radius: var(--radius);
+  padding: .5rem .75rem;
+}
+.search input { border: 0; outline: none; flex: 1; background: transparent; }
+.actions { display: flex; align-items: center; gap: .5rem; }
+.btn {
+  border: 1px solid #e5e7eb; background: var(--card); border-radius: 999px; padding: .5rem .9rem; cursor: pointer;
+}
+
+/* ====== Hero ====== */
+.hero {
+  margin: 1rem 0 1.25rem;
+  background: linear-gradient(135deg, #dcfce7, #ffffff);
+  border: 1px solid #e5e7eb;
+  border-radius: calc(var(--radius) * 1.25);
+  padding: 1.25rem;
+  display: grid; grid-template-columns: 1.2fr .8fr; gap: 1rem;
+}
+.hero h1 { font-size: clamp(1.4rem, 2.8vw, 2rem); margin: 0 0 .4rem; }
+.hero p { color: var(--muted); margin: 0 0 .9rem; }
+.cta {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: var(--brand); color: white; border: none; border-radius: 999px; padding: .65rem 1rem; cursor: pointer;
+}
+.cta:hover { background: var(--brand-dark); }
+.hero img { border-radius: var(--radius); height: 180px; object-fit: cover; }
+
+/* ====== Categories ====== */
+.section { margin: 1.25rem 0; }
+.section h2 { font-size: 1.25rem; margin: 0 0 .75rem; }
+.categories { display: grid; grid-template-columns: repeat(6, 1fr); gap: .75rem; }
+.chip {
+  background: var(--card); border: 1px solid #e5e7eb; border-radius: 999px; padding: .5rem .75rem; text-align: center; cursor: pointer;
+}
+
+/* ====== Product Grid ====== */
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.card {
+  background: var(--card); border: 1px solid #e5e7eb; border-radius: var(--radius); overflow: hidden;
+  display: grid; grid-template-rows: auto 1fr auto; transition: transform .15s ease;
+}
+.card:hover { transform: translateY(-2px); }
+.card .info { padding: .75rem; }
+.title { font-weight: 600; margin: 0 0 .25rem; }
+.desc { color: var(--muted); font-size: .95rem; margin: 0 0 .5rem; }
+.price { font-weight: 700; }
+.add {
+  margin: .75rem; padding: .6rem; width: calc(100% - 1.5rem);
+  background: var(--brand); color: white; border: none; border-radius: .8rem; cursor: pointer;
+}
+.add:hover { background: var(--brand-dark); }
+
+/* ====== Footer ====== */
+footer { color: var(--muted); font-size: .95rem; padding: 2rem 0; text-align: center; }
+
+/* ====== Responsive ====== */
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .categories { grid-template-columns: repeat(3, 1fr); }
+  .hero { grid-template-columns: 1fr; }
+  .hero img { height: 160px; }
+}
+@media (max-width: 540px) {
+  .grid { grid-template-columns: 1fr; }
+  .nav { flex-wrap: wrap; gap: .75rem; }
+  .search { order: 3; width: 100%; }
+}
+
+  </style>
+</head>
+<body>
+  <!-- ====== Header ====== -->
+  <header aria-label="Site header">
+    <div class="container nav">
+      <a class="brand" href="#" aria-label="FreshCart Home">
+        <span class="dot" aria-hidden="true"></span>
+        <span>FreshCart</span>
+      </a>
+      <label class="search" aria-label="Search for groceries">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M21 21l-4.35-4.35m1.35-5.65A7 7 0 1 1 7 3a7 7 0 0 1 11 7Z" stroke="#64748b" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <input type="search" placeholder="Search fruits, veggies, snacks…" />
+      </label>
+      <div class="actions">
+        <button class="btn" aria-label="View account">Account</button>
+        <button class="btn" aria-label="View cart">Cart (0)</button>
+      </div>
+    </div>
+  </header>  <main class="container">
+    <!-- ====== Hero ====== -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <h1 id="hero-title">Your daily groceries, delivered fast</h1>
+        <p>Fresh produce, pantry staples, and snacks at everyday prices.</p>
+        <button class="cta" aria-label="Shop deals">Shop Deals →</button>
+      </div>
+      <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1200&auto=format&fit=crop" alt="Assorted fresh vegetables and fruits" />
+    </section><!-- ====== Categories ====== -->
+<section class="section" aria-labelledby="cat-title">
+  <h2 id="cat-title">Shop by category</h2>
+  <div class="categories" role="list">
+    <div class="chip" role="listitem">Fruits</div>
+    <div class="chip" role="listitem">Vegetables</div>
+    <div class="chip" role="listitem">Bakery</div>
+    <div class="chip" role="listitem">Dairy & Eggs</div>
+    <div class="chip" role="listitem">Snacks</div>
+    <div class="chip" role="listitem">Beverages</div>
+  </div>
+</section>
+
+<!-- ====== Products ====== -->
+<section class="section" aria-labelledby="prod-title">
+  <h2 id="prod-title">Popular picks</h2>
+  <div class="grid">
+    <!-- Card 1 -->
+    <article class="card" aria-label="Honeycrisp Apples">
+      <img src="https://images.unsplash.com/photo-1560807707-8cc77767d783?q=80&w=1200&auto=format&fit=crop" alt="Red apples in a basket" />
+      <div class="info">
+        <h3 class="title">Honeycrisp Apples</h3>
+        <p class="desc">Sweet, crisp, perfect for snacking.</p>
+        <p class="price">₹149 / kg</p>
+      </div>
+      <button class="add" aria-label="Add Honeycrisp Apples to cart">Add to Cart</button>
+    </article>
+
+    <!-- Card 2 -->
+    <article class="card" aria-label="Fresh Spinach">
+      <img src="https://images.unsplash.com/photo-1506806732259-39c2d0268443?q=80&w=1200&auto=format&fit=crop" alt="Fresh spinach leaves" />
+      <div class="info">
+        <h3 class="title">Fresh Spinach</h3>
+        <p class="desc">Washed and ready to cook.</p>
+        <p class="price">₹79 / bunch</p>
+      </div>
+      <button class="add" aria-label="Add Fresh Spinach to cart">Add to Cart</button>
+    </article>
+
+    <!-- Card 3 -->
+    <article class="card" aria-label="Whole Wheat Bread">
+      <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?q=80&w=1200&auto=format&fit=crop" alt="Loaf of whole wheat bread" />
+      <div class="info">
+        <h3 class="title">Whole Wheat Bread</h3>
+        <p class="desc">Soft loaf, no preservatives.</p>
+        <p class="price">₹59</p>
+      </div>
+      <button class="add" aria-label="Add Whole Wheat Bread to cart">Add to Cart</button>
+    </article>
+
+    <!-- Card 4 -->
+    <article class="card" aria-label="Greek Yogurt">
+      <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?q=80&w=1200&auto=format&fit=crop" alt="Jar of yogurt with spoon" />
+      <div class="info">
+        <h3 class="title">Greek Yogurt</h3>
+        <p class="desc">High protein, creamy texture.</p>
+        <p class="price">₹99</p>
+      </div>
+      <button class="add" aria-label="Add Greek Yogurt to cart">Add to Cart</button>
+    </article>
+  </div>
+</section>
+
+  </main>  <!-- ====== Footer ====== -->  <footer>
+    <div class="container">
+      <p>© <span id="year"></span> FreshCart · Made with ♥ for good food.</p>
+    </div>
+  </footer>  <script>
+    // Tiny enhancement: update footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script></body>
+</html>
